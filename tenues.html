@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>7ème Légion — Tenues</title>
+  <meta name="description" content="Site officiel de la 7ème Légion du 327ème Corps d’Armée Stellaire — L’avant-garde meurt mais ne faillit pas.">
+  <meta property="og:title" content="7ème Légion">
+  <meta property="og:image" content="https://i.imgur.com/jCgu0c6.png">
+  <meta name="theme-color" content="#0B0907">
+  <link rel="icon" type="image/png" href="https://i.imgur.com/jCgu0c6.png">
+  <link rel="apple-touch-icon" href="https://i.imgur.com/jCgu0c6.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="nav-brand" href="index.html">
+      <img src="https://i.imgur.com/jCgu0c6.png" alt="Insigne de la 7ème Légion">
+      <span>7ÈME LÉGION</span>
+    </a>
+    <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="presentation.html">Présentation</a></li>
+      <li><a href="equipement.html">Équipement</a></li>
+      <li><a href="reglement.html">Règlement</a></li>
+      <li><a href="personnages.html">Personnages RP</a></li>
+      <li><a href="https://lucasmasure.github.io/site327th/tenues.html" class="active">Tenues</a></li>
+    </ul>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-inner">
+        <p class="hero-kicker">Uniformes réglementaires</p>
+        <h1 class="engraved">Tenues de la 7ème Légion</h1>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="uniform-grid" id="uniforms"></div>
+    </section>
+
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="plate modal-box">
+        <button class="modal-close" aria-label="Fermer">✕</button>
+        <div class="modal-img" id="modal-img"></div>
+        <div>
+          <p class="matricule">Unité lourde du 327th</p>
+          <h2 id="modal-title"></h2>
+          <ul class="modal-list" id="modal-list"></ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Les images sont attendues dans assets/img/tenues/ (sinon l'insigne s'affiche à la place)
+    const KAMA = "Kama", LEGS = "Armor legs", HOL = "Holsters", PADS = "Helmet Pads", COMMS = "Helmet Comms", RANGE = "Rangefinder";
+    const UNIFORMS = [
+      { grade: "CPL", img: "CPL7th.png", items: [KAMA, "Shoulder : Ammo / Protection", "Backpack : Classique / DC15a", "Helmet Attachments : Binocular", "Chest Strap : Celui du Screen / le même avec un patch / Strap avec grenade", LEGS] },
+      { grade: "CPL-C", img: "cpl-c7th.png", items: [KAMA, "Shoulder : Ammo / Protection", "Backpack : Classique / DC15a", "Helmet Attachments : Binocular", "Chest Strap : Celui du Screen / le même avec un patch / Strap avec grenade", LEGS, HOL] },
+      { grade: "SGT", img: "sgt7th.png", items: [KAMA, "Shoulder : Ammo / Protection / Arm Antenna", "Backpack : Classique / DC15a", "Helmet Attachments : Binocular", "Chest Strap : Celui du Screen / le même avec un patch / Strap avec grenade", LEGS, HOL, PADS] },
+      { grade: "SGT-C", img: "sgt-c7th.png", items: [KAMA, "Shoulder : Ammo / Protection / Arm Antenna", "Backpack : Classique / DC15a", "Helmet Attachments : Binocular", "Chest Strap : Celui du Screen / le même avec un patch / Strap avec grenade", LEGS, HOL, PADS, "Pauldron Base : Sans poche de munitions", "Right Pauldron : Le noir"] },
+      { grade: "ADJ", img: "adj7th.png", items: [KAMA, "Shoulder : Ammo / Protection / Arm Antenna", "Backpack : Classique / DC15a / Cody Jetpack", "Helmet Attachments : Binocular", "Chest Strap : Tous sauf celui de Bly", LEGS, HOL, PADS, "Pauldron Base : Sans poche de munitions / Munitions côté comme image", "Right Pauldron : Le blanc"] },
+      { grade: "ADJ-C", img: "adj-c7th.png", items: [KAMA, "Shoulder : Ammo / Protection / Arm Antenna", "Backpack : Classique / DC15a / Cody Jetpack", "Helmet Attachments : Binocular", "Chest Strap : Tous sauf celui de Bly", LEGS, HOL, PADS, "Pauldron Base : Sans poche de munitions / Munitions côté comme image", "Right Pauldron : Le blanc", COMMS] },
+      { grade: "2nd LTN", img: "2ndltn7th.png", items: [KAMA, "Shoulder : Ammo / Protection / Arm Antenna", "Backpack : Classique / DC15a / Cody Jetpack", "Helmet Attachments : Binocular", "Chest Strap : Tous sauf celui de Bly", LEGS, HOL, PADS, "Pauldron Base : Sans poche de munitions / Munitions côté comme image", "Right Pauldron : Le marron", COMMS] },
+      { grade: "LTN", img: "ltn7th.png", items: [KAMA, "Shoulder : Ammo / Protection / Arm Antenna", "Backpack : Classique / DC15a / Cody Jetpack", "Helmet Attachments / Rangefinder : Binocular ou le Rangefinder", "Chest Strap : Tous sauf celui de Bly", LEGS, HOL, PADS, "Pauldron Base : Sans poche de munitions / Munitions côté comme image", "Right Pauldron : Le marron", COMMS] },
+      { grade: "CPT 2nd", img: "cpt2nd7th.png", items: [KAMA, "Shoulder : Ammo / Protection", "Backpack : Tous", "Helmet Attachments : Tous", "Chest Strap : Tous sauf celui de Bly", LEGS, HOL, PADS, "Pauldron Base : Tous", "Left Pauldron : Le noir", COMMS, RANGE] },
+      { grade: "CPT", img: "cpt7th.png", items: [KAMA, "Shoulder : Ammo / Protection", "Backpack : Tous", "Helmet Attachments : Tous", "Chest Strap : Tous", LEGS, HOL, PADS, "Pauldron Base : Tous", "Left Pauldron : Le noir", COMMS, RANGE] },
+      { grade: "MJR", img: "mjr7th.png", items: [KAMA, "Shoulder : Ammo / Protection", "Backpack : Tous", "Helmet Attachments : Tous", "Chest Strap : Tous", LEGS, HOL, PADS, "Pauldron Base : Tous", "Left Pauldron : Le blanc", COMMS, RANGE] },
+      { grade: "VCMD", img: "vcmd7th.png", items: [KAMA, "Shoulder : Ammo / Protection", "Backpack : Tous", "Helmet Attachments : Tous", "Chest Strap : Tous", LEGS, HOL, PADS, "Pauldron Base : Tous", "Left Pauldron : Le marron", COMMS, RANGE, "Commander Rankplate"] },
+      { grade: "CMD", img: "vcmd7th.png", items: [KAMA, "Shoulder : Ammo / Protection", "Backpack : Tous", "Helmet Attachments : Tous", "Chest Strap : Tous", LEGS, HOL, PADS, "Pauldron Base : Tous", "Left Pauldron : Le marron", COMMS, RANGE, "Commander Rankplate"] }
+    ];
+
+    const FALLBACK = "https://i.imgur.com/jCgu0c6.png";
+    function picture(src, alt) {
+      const img = document.createElement("img");
+      img.src = "assets/img/tenues/" + src;
+      img.alt = alt;
+      img.loading = "lazy";
+      img.onerror = () => { img.onerror = null; img.src = FALLBACK; img.parentElement.classList.add("missing"); };
+      return img;
+    }
+
+    const grid = document.getElementById("uniforms");
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("modal-img");
+
+    function openModal(u) {
+      modalImg.className = "modal-img";
+      modalImg.replaceChildren(picture(u.img, u.grade + " 7ème Légion"));
+      document.getElementById("modal-title").textContent = u.grade + " 7ème Légion";
+      const list = document.getElementById("modal-list");
+      list.replaceChildren(...u.items.map((t) => {
+        const li = document.createElement("li");
+        const [k, v] = t.split(" : ");
+        if (v) { const b = document.createElement("b"); b.textContent = k + " : "; li.append(b, v); }
+        else li.textContent = t;
+        return li;
+      }));
+      modal.classList.add("open");
+      modal.querySelector(".modal-close").focus();
+    }
+    function closeModal() { modal.classList.remove("open"); }
+
+    UNIFORMS.forEach((u) => {
+      const card = document.createElement("button");
+      card.className = "plate uniform reveal";
+      const wrap = document.createElement("div");
+      wrap.className = "uniform-img";
+      wrap.append(picture(u.img, u.grade + " 7ème Légion"));
+      const body = document.createElement("div");
+      body.className = "uniform-body";
+      body.innerHTML = '<div class="grade"></div><div class="sub">7ème Légion</div>';
+      body.querySelector(".grade").textContent = u.grade;
+      card.append(wrap, body);
+      card.addEventListener("click", () => openModal(u));
+      grid.append(card);
+    });
+
+    modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+    modal.querySelector(".modal-close").addEventListener("click", closeModal);
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+  </script>
+
+  <footer class="footer">
+    <img src="https://i.imgur.com/jCgu0c6.png" alt="">
+    <div>7ème Légion — 327ème Corps d’Armée Stellaire</div>
+    <p class="motto">L’avant-garde meurt mais ne faillit pas</p>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
